@@ -4,8 +4,72 @@ body{
 
 .movie{
     background-color:white;
-    min-height: 250px;
+    min-height: 450px;
     border-radius: 0px 0px 10px 10px;
     box-shadow: 10px 10px 5px 0px rgba(177,177,177,0.8);
 
+}
+
+/* The Modal (background) */
+.modal {
+    display: none;
+    /* Hidden by default */
+    position: fixed;
+    /* Stay in place */
+    z-index: 1;
+    /* Sit on top */
+
+    left: 0;
+
+    width: 100%;
+    /* Full width */
+    height: 100%;
+    /* Full height */
+    overflow: auto;
+    /* Enable scroll if needed */
+    background-color: rgb(0, 0, 0);
+    /* Fallback color */
+    background-color: rgba(0, 0, 0, 0.7);
+    /* Black w/ opacity */
+}
+
+.faded {
+    opacity: 0;
+    transition-duration: 0.5s;
+    padding-top: 0;
+}
+
+
+.show {
+    opacity: 1;
+    padding-top: 100px;
+}
+
+
+
+/* Modal Content */
+.modal-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 900px;
+}
+
+/* The Close Button */
+.close {
+    color: #aaaaaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    position: absolute;
+    right: 20px;
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
 }
