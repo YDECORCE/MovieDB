@@ -16,6 +16,6 @@ function ajaxGet(url) {
     req.addEventListener("error", function () {
         console.error("Erreur réseau avec l'URL " + url);
     });
-    req.send(null);
+    // req.send(null);
     return data;
 }
