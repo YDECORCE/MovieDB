@@ -1,4 +1,5 @@
 var Racine = document.getElementById("racine");
+var CorpsSite=document.getElementById("MyMovies")
 var preview=document.getElementById("allmovies");
 var AllMovies=[];
 var Upcoming=[];
@@ -10,16 +11,25 @@ generate();
 
 
 function generate(){
-    
+    modal = new Modal();
+    modal.content(); 
+    var HeaderMovie=document.createElement("h1");
+    HeaderMovie.textContent="A l'affiche prochainement";
+    CorpsSite.append(HeaderMovie);
+    var HeaderCarousel=document.createElement("div");
+    HeaderCarousel.classList="carousel"
+    CorpsSite.append(HeaderCarousel);
+    var RowCarousel= document.createElement("div")
+    RowCarousel.classList="carousel-row"
+    RowCarousel.id="allmovies"
+    HeaderCarousel.append(RowCarousel);
     
     Upcoming=ajaxGet("https://api.themoviedb.org/3/movie/upcoming?api_key=d5547c6cdbe3cbaed33b74459d673b62&language=fr-fr&page=1&region=FR");
     AllMovies=Upcoming['results'];
     console.log(AllMovies);
-    modal = new Modal();
-    modal.content(); 
-       for( var i=0; i<20; i++)
+    
+       for( var i=0; i<AllMovies.length; i++)
         {
-        // console.log(i);
         films[i]= new Movie(i);
         films[i].preview();
         }
@@ -35,7 +45,7 @@ function Movie(index) {
     // this.overview=AllMovies[index].overview;
     // console.log(this.urlposter)
     this.preview=function(){
-        
+        var preview=document.getElementById("allmovies");
         var movie=document.createElement("div");
         movie.id='movie'+index;
         movie.classList="col-12 col-lg-4 carousel-tile";
@@ -123,13 +133,14 @@ function GenerateModalDetails(id)
         // création du trailer
         var trailer=document.createElement("div");
         trailer.style="text-align: center"
-        trailer.innerHTML='<iframe width="560" height="315" src="https://www.youtube.com/embed/'+video[0].key+'" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>'    
+        trailer.innerHTML='<iframe id="video" width="560" height="315" src="https://www.youtube.com/embed/'+video[0].key+'" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>'    
         para.append(trailer);
         
         span.onclick = function () 
         {
             modal.classList.toggle("show");
             modal.style.zIndex = "-1";
+            
         }   
         return false;
     }

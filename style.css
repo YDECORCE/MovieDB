@@ -9,6 +9,10 @@ body{
     box-shadow: 10px 10px 5px 0px rgba(177,177,177,0.8);
 
 }
+h1{
+    color:white;
+    font-family: 'Black Ops One', cursive;
+}
 
 /* The Modal (background) */
 .modal {
