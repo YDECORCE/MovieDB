@@ -1,9 +1,10 @@
+var query ="";
 var SectionSite= [];
 SectionSite=[
     {
-        titre:"Votre recherche",
+        titre:"Votre recherche : "+query+"",
         ancre:"Search",
-        url:"https://api.themoviedb.org/3/movie/now_playing?api_key=d5547c6cdbe3cbaed33b74459d673b62&language=fr-fr&page=1",
+        url:"https://api.themoviedb.org/3/search/movie?api_key=d5547c6cdbe3cbaed33b74459d673b62&language=fr-fr&query="+query+"&page=1&include_adult=false",
     },
     {
         titre:"A l'affiche actuellement",
@@ -23,19 +24,31 @@ SectionSite=[
 ]
 var Racine = document.getElementById("racine");
 var CorpsSite=document.getElementById("MyMovies")
-var preview=document.getElementById("allmovies");
 var AllMovies=[];
 var Upcoming=[];
 var films=[];
 var Moviedetails=[];
 var MovieGuest=[];
 var MovieVideo=[];
-modal = new Modal();
+var modal = new Modal();
 modal.content(); 
+document.getElementById("btn_search").addEventListener("click", () => {
+        query = document.getElementById("search").value;
+        console.log(query);
+        return query;
+
+    })
+// query="spiderman";
+console.log(query);
+if(!query){
+
 // affichage par défaut si pas de recherche
 for (var j=1; j<SectionSite.length;j++)
 {
     generate(j);
+}
+}else{
+    generate(0);
 }
 
 
@@ -43,15 +56,16 @@ for (var j=1; j<SectionSite.length;j++)
 function generate(index){
     
     var HeaderMovie=document.createElement("h1");
-    HeaderMovie.textContent=SectionSite[index].titre;
-    CorpsSite.append(HeaderMovie);
+        HeaderMovie.id="Titre_"+SectionSite[index].ancre;
+        HeaderMovie.textContent=SectionSite[index].titre;
+        CorpsSite.append(HeaderMovie);
     var HeaderCarousel=document.createElement("div");
-    HeaderCarousel.classList="carousel"
-    CorpsSite.append(HeaderCarousel);
+        HeaderCarousel.classList="carousel"
+        CorpsSite.append(HeaderCarousel);
     var RowCarousel= document.createElement("div")
-    RowCarousel.classList="carousel-row"
-    RowCarousel.id=SectionSite[index].ancre
-    HeaderCarousel.append(RowCarousel);
+        RowCarousel.classList="carousel-row"
+        RowCarousel.id=SectionSite[index].ancre
+        HeaderCarousel.append(RowCarousel);
     AllMovies=[];
     Upcoming=[];
     Upcoming=ajaxGet(SectionSite[index].url);
@@ -94,28 +108,28 @@ function Modal() {
     this.content = function () {
         //Génération de la modal
         var modal = document.createElement("div");
-        Racine.append(modal);
-        modal.id = "Moviedetail";
-        modal.classList = "modal faded";
-        modal.style.display = "block";
-        modal.style.zIndex = "-1";
+            Racine.append(modal);
+            modal.id = "Moviedetail";
+            modal.classList = "modal faded";
+            modal.style.display = "block";
+            modal.style.zIndex = "-1";
         //Génération de la modal content
         var modalContent = document.createElement("div");
-        modal.append(modalContent);
-        modalContent.classList = "modal-content";
+            modal.append(modalContent);
+            modalContent.classList = "modal-content";
         //Génération du bouton close
         var close = document.createElement("span");
-        modalContent.append(close);
-        close.classList = "close";
-        close.innerHTML = "&times;";
+            modalContent.append(close);
+            close.classList = "close";
+            close.innerHTML = "&times;";
         //Génération du titre de la Modal
         var h1 = document.createElement("h2");
-        modalContent.append(h1);
-        h1.id = "titre";
+            modalContent.append(h1);
+            h1.id = "titre";
         //Génération de la div qui accueille la présentation du film
         var para = document.createElement("div");
-        modalContent.append(para);
-        para.id = "modalContent";
+            modalContent.append(para);
+            para.id = "modalContent";
     }
 }
 
@@ -144,11 +158,12 @@ function GenerateModalDetails(id)
         para.append(synopsis);
         // création de la liste des acteurs principaux
         var h3acteur=document.createElement("h3");
+        h3acteur.style.paddingTop="20px";
         h3acteur.textContent="Acteurs principaux";
         para.append(h3acteur);
         var actors=document.createElement("div");
         actors.id="actors"
-        actors.style.display="flex";
+        actors.style="display:flex; justify-content: space-around";
         for(var i=0;i<5;i++)
         {
             var actor=document.createElement("div");
@@ -169,6 +184,7 @@ function GenerateModalDetails(id)
         {
             modal.classList.toggle("show");
             modal.style.zIndex = "-1";
+            trailer.innerHTML="";
             
         }   
         return false;
