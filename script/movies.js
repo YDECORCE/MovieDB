@@ -175,7 +175,7 @@ function GenerateModalDetails(id)
         var synopsis=document.createElement("div");
         synopsis.id="synopsis";
         synopsis.style.display="flex";
-        synopsis.innerHTML='<img src="https://image.tmdb.org/t/p/w154/'+Moviedetails.poster_path+'"><div class="px-3"><h3>Synopsis</h3><p>'+Moviedetails.overview+'</p><h3>Date de sortie</h3><p>'+Moviedetails.release_date+'</p></div>';
+        synopsis.innerHTML='<img src="https://image.tmdb.org/t/p/w154/'+Moviedetails.poster_path+'"><div class="px-3"><h3>Synopsis</h3><p style="max-height:150px;overflow:auto">'+Moviedetails.overview+'</p><h3>Date de sortie</h3><p>'+Moviedetails.release_date+'</p></div>';
         para.append(synopsis);
         // création de la liste des acteurs principaux
         var h3acteur=document.createElement("h3");
