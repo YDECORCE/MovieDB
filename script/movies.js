@@ -1,11 +1,6 @@
-var query ="";
+var query="";
 var SectionSite= [];
 SectionSite=[
-    {
-        titre:"Votre recherche : "+query+"",
-        ancre:"Search",
-        url:"https://api.themoviedb.org/3/search/movie?api_key=d5547c6cdbe3cbaed33b74459d673b62&language=fr-fr&query="+query+"&page=1&include_adult=false",
-    },
     {
         titre:"A l'affiche actuellement",
         ancre:"Nowmovies",
@@ -24,6 +19,7 @@ SectionSite=[
 ]
 var Racine = document.getElementById("racine");
 var CorpsSite=document.getElementById("MyMovies")
+var CorpsSearch=document.getElementById("MySearch")
 var AllMovies=[];
 var Upcoming=[];
 var films=[];
@@ -32,54 +28,79 @@ var MovieGuest=[];
 var MovieVideo=[];
 var modal = new Modal();
 modal.content(); 
-document.getElementById("btn_search").addEventListener("click", () => {
-        query = document.getElementById("search").value;
-        console.log(query);
-        return query;
 
-    })
-// query="spiderman";
-console.log(query);
-if(!query){
-
-// affichage par défaut si pas de recherche
-for (var j=1; j<SectionSite.length;j++)
+        
+if(query==""){
+CorpsSite.style.display="block";
+CorpsSearch.style.display="none";
+for (var j=0; j<SectionSite.length;j++)
 {
     generate(j);
 }
-}else{
-    generate(0);
 }
-
-
+document.getElementById("btn_search").addEventListener("click", Search)
 
 function generate(index){
     
+    var titre=SectionSite[index].titre
+    var ancre=SectionSite[index].ancre
+    var url=SectionSite[index].url;   
     var HeaderMovie=document.createElement("h1");
-        HeaderMovie.id="Titre_"+SectionSite[index].ancre;
-        HeaderMovie.textContent=SectionSite[index].titre;
+        HeaderMovie.id="Titre_"+ancre;
+        HeaderMovie.textContent=titre;
         CorpsSite.append(HeaderMovie);
     var HeaderCarousel=document.createElement("div");
         HeaderCarousel.classList="carousel"
         CorpsSite.append(HeaderCarousel);
     var RowCarousel= document.createElement("div")
         RowCarousel.classList="carousel-row"
-        RowCarousel.id=SectionSite[index].ancre
+        RowCarousel.id=ancre
         HeaderCarousel.append(RowCarousel);
     AllMovies=[];
     Upcoming=[];
-    Upcoming=ajaxGet(SectionSite[index].url);
+    Upcoming=ajaxGet(url);
+    AllMovies=Upcoming['results'];
+    console.log(AllMovies);
+    
+    for( var i=0; i<AllMovies.length; i++)
+        {
+        films[i]= new Movie(i,ancre);
+        films[i].preview();
+        }          
+}
+
+function Search(){
+    var query=document.getElementById("search").value;
+    console.log(query);
+    var titre="Votre recherche : "+query+""
+    var ancre="Search"
+    var url="https://api.themoviedb.org/3/search/movie?api_key=d5547c6cdbe3cbaed33b74459d673b62&language=fr-fr&query="+query+"&page=1&include_adult=false"
+    CorpsSite.style.display="none"
+    CorpsSearch.style.display="block"
+    var HeaderMovie=document.createElement("h1");
+        HeaderMovie.id="Titre_"+ancre;
+        HeaderMovie.textContent=titre;
+        CorpsSearch.append(HeaderMovie);
+    var HeaderCarousel=document.createElement("div");
+        HeaderCarousel.classList="carousel"
+        CorpsSearch.append(HeaderCarousel);
+    var RowCarousel= document.createElement("div")
+        RowCarousel.classList="carousel-row"
+        RowCarousel.id=ancre
+        HeaderCarousel.append(RowCarousel);
+    AllMovies=[];
+    Upcoming=[];
+    Upcoming=ajaxGet(url);
     AllMovies=Upcoming['results'];
     console.log(AllMovies);
     
        for( var i=0; i<AllMovies.length; i++)
         {
-        films[i]= new Movie(i,SectionSite[index].ancre);
+        films[i]= new Movie(i,ancre);
         films[i].preview();
         }
              
-}
-        
+}        
 
 
 
