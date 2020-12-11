@@ -179,7 +179,8 @@ function GenerateModalDetails(id)
         var synopsis=document.createElement("div");
         synopsis.id="synopsis";
         synopsis.style.display="flex";
-        synopsis.innerHTML='<img src="https://image.tmdb.org/t/p/w154/'+Moviedetails.poster_path+'" id="AfficheModal"><div class="px-3"><h3>Synopsis</h3><p style="max-height:150px;overflow:auto">'+Moviedetails.overview+'</p><h3>Date de sortie</h3><p>'+Moviedetails.release_date+'</p></div>';
+        var FormatedDate=ChangeDate(Moviedetails.release_date);
+        synopsis.innerHTML='<img src="https://image.tmdb.org/t/p/w154/'+Moviedetails.poster_path+'" id="AfficheModal"><div class="px-3"><h3>Synopsis</h3><p style="max-height:150px;overflow:auto">'+Moviedetails.overview+'</p><h3>Date de sortie</h3><p>'+FormatedDate+'</p></div>';
         para.append(synopsis);
         // création de la liste des acteurs principaux
         var h3acteur=document.createElement("h3");
@@ -196,7 +197,10 @@ function GenerateModalDetails(id)
             actor.id="actor"+i;
             actor.classList="mx-2"
             actor.style="text-align: center";
-            actor.innerHTML='<img src="https://image.tmdb.org/t/p/w92/'+Guest[i].profile_path+'"><p>'+Guest[i].name+'</p>'
+            if(Guest[i].profile_path==null){
+                actor.innerHTML='<img src="../noview.png"><p>'+Guest[i].name+'</p>'
+            }
+            else{actor.innerHTML='<img src="https://image.tmdb.org/t/p/w92/'+Guest[i].profile_path+'"><p>'+Guest[i].name+'</p>'}
             actors.append(actor);
         }
         para.append(actors);
@@ -224,4 +228,10 @@ function GenerateModalDetails(id)
 function refresh(){
     CorpsSite.style.display="block"
     CorpsSearch.style.display="none"
+}
+
+function ChangeDate(string){
+    var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    var FormatedDate = new Date(string).toLocaleDateString('fr-FR', options);
+    return FormatedDate;
 }
