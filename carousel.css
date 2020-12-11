@@ -10,8 +10,8 @@
 
       /* Tile Dimensions */
       --carousel-tile-spacing: 5px;
-      --carousel-tile-width:   360px;
-      --carousel-tile-height:  calc(var(--carousel-tile-width) / (1/1.30));
+      --carousel-tile-width:   350px;
+      --carousel-tile-height:  calc(var(--carousel-tile-width)*1.50));
 
       /* Growth Factor */
       --carousel-growth-factor: 1.1;
@@ -35,7 +35,7 @@
 .carousel {
       margin: 0;
       box-sizing: border-box;
-      width: 100%;
+      max-width: 100%;
       overflow-x: auto;
       overflow-y: hidden;
 }

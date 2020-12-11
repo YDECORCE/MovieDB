@@ -39,6 +39,9 @@ for (var j=0; j<SectionSite.length;j++)
 }
 }
 document.getElementById("btn_search").addEventListener("click", Search)
+document.getElementById("now").addEventListener("click", refresh)
+document.getElementById("next").addEventListener("click", refresh)
+document.getElementById("most").addEventListener("click", refresh)
 
 function generate(index){
     
@@ -112,7 +115,7 @@ function Movie(index, ancre) {
         var preview=document.getElementById(ancre);
         var movie=document.createElement("div");
         movie.id='movie'+index;
-        movie.classList="col-12 col-lg-4 carousel-tile";
+        movie.classList="carousel-tile";
         var inMovie=document.createElement("div");
         inMovie.classList="movie justify-content-center my-3 mx-1";
         inMovie.style.backgroundImage='url('+this.urlposter+')';
@@ -160,7 +163,8 @@ function GenerateModalDetails(id)
     {
         Moviedetails=ajaxGet("https://api.themoviedb.org/3/movie/"+id+"?api_key=d5547c6cdbe3cbaed33b74459d673b62&language=fr-fr");
         MovieGuest=ajaxGet("https://api.themoviedb.org/3/movie/"+id+"/credits?api_key=d5547c6cdbe3cbaed33b74459d673b62&language=fr-fr");
-        MovieVideo=ajaxGet("https://api.themoviedb.org/3/movie/"+id+"/videos?api_key=d5547c6cdbe3cbaed33b74459d673b62");    
+        MovieVideo=ajaxGet("https://api.themoviedb.org/3/movie/"+id+"/videos?api_key=d5547c6cdbe3cbaed33b74459d673b62");  
+        console.log(MovieVideo) ;
         var para=document.getElementById("modalContent")
         var Guest=MovieGuest['cast'];
         var video=MovieVideo['results'];
@@ -175,10 +179,11 @@ function GenerateModalDetails(id)
         var synopsis=document.createElement("div");
         synopsis.id="synopsis";
         synopsis.style.display="flex";
-        synopsis.innerHTML='<img src="https://image.tmdb.org/t/p/w154/'+Moviedetails.poster_path+'"><div class="px-3"><h3>Synopsis</h3><p style="max-height:150px;overflow:auto">'+Moviedetails.overview+'</p><h3>Date de sortie</h3><p>'+Moviedetails.release_date+'</p></div>';
+        synopsis.innerHTML='<img src="https://image.tmdb.org/t/p/w154/'+Moviedetails.poster_path+'" id="AfficheModal"><div class="px-3"><h3>Synopsis</h3><p style="max-height:150px;overflow:auto">'+Moviedetails.overview+'</p><h3>Date de sortie</h3><p>'+Moviedetails.release_date+'</p></div>';
         para.append(synopsis);
         // création de la liste des acteurs principaux
         var h3acteur=document.createElement("h3");
+        h3acteur.id="Actors_label";
         h3acteur.style.paddingTop="20px";
         h3acteur.textContent="Acteurs principaux";
         para.append(h3acteur);
@@ -198,9 +203,13 @@ function GenerateModalDetails(id)
         // création du trailer
         var trailer=document.createElement("div");
         trailer.style="text-align: center"
-        trailer.innerHTML='<iframe id="video" width="560" height="315" src="https://www.youtube.com/embed/'+video[0].key+'" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>'    
+        if(video.length==0){
+                trailer.innerHTML="<p>Il n'existe pas encore de video</p>"
+        }
+        else{
+                trailer.innerHTML='<iframe id="video" width="560" height="315" src="https://www.youtube.com/embed/'+video[0].key+'" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>'    
+                }
         para.append(trailer);
-        
         span.onclick = function () 
         {
             modal.classList.toggle("show");
@@ -212,3 +221,7 @@ function GenerateModalDetails(id)
     }
 }
 
+function refresh(){
+    CorpsSite.style.display="block"
+    CorpsSearch.style.display="none"
+}
